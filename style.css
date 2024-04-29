@@ -1,0 +1,253 @@
+
+#restart{
+	height:50px;
+	width:50px;
+	margin-left:38%;
+}
+#toc{
+	margin-left:750px;
+	
+}
+#cs{
+	margin-left:30%;
+	margin-top:-2.3%;
+}
+body, html {
+    height: 100%; 
+    margin: 0; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    background-image:url(Ozadja/background6.jpg); 
+    font-family: 'Press Start 2P', cursive; 
+    color: #FFF; 
+    overflow: hidden;
+}
+#tocke, #cas {
+    color: #4CAF50; 
+    font-size: 1.2em; 
+}
+
+
+
+
+
+.swal-text {
+    font-size: 16px; 
+    color:#4CAF50;
+    text-align: center;
+    margin-top: 30px;
+}
+
+
+
+.swal-footer {
+    background: transparent; 
+    margin-top: 0;
+}
+
+.swal-button-container {
+    display: flex; 
+    justify-content: center; 
+    flex-wrap: nowrap; 
+}
+
+
+
+    .swal-icon--info {
+        border-color: #4CAF50; 
+    }
+    .swal-icon swal-icon--info::before{
+        color:#4CAF50;
+    }
+
+.swal-icon--success:after, .swal-icon--success:before {
+    background-color: #4CAF50; 
+}
+
+.swal-icon--error {
+    border-color: #34eb5b; 
+    color: #34eb5b;
+}
+
+.swal-icon--warning {
+    border-color: #ffaa00; 
+    color: #ffaa00;
+}
+
+.swal-button.swal-button--confirm.mojgumb{
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    font-size: 16px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+
+
+button.swal-button {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.swal-content{
+    color:#4CAF50;
+    margin-top: 20px;
+}
+
+
+.swal-icon--error__line--right {
+    background-color: #34eb5b; 
+}
+
+.swal-icon--error__line--left {
+    background-color: #34eb5b; 
+}
+
+
+.retro-swal-button {
+    background-color: #4CAF50; 
+    color: #4CAF50;
+    padding: 16px 20px; 
+    font-size: 16px;
+    border: none; 
+    text-align: center; 
+    display: inline-block; 
+    margin: 4px 2px; 
+    cursor: pointer;
+    border-radius: 8px;
+}
+.retro-swal {
+    font-family: 'Press Start 2P', cursive; 
+   
+    color: #4CAF50; 
+}
+
+.retro-swal .swal-title {
+    color: #4CAF50;
+}
+.swal-title{
+ color:#4CAF50;
+}
+
+
+
+
+#game-area {
+    text-align: center; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+
+#naslov {
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    color: #4CAF50; 
+    font-size: 2em;
+    margin: 20px 0; 
+}
+
+.slikanaslov {
+    width: 50px; 
+    height: 50px;
+    margin: 0 20px; 
+}
+
+
+#container {
+    background-color: rgba(0, 0, 0, 0.8); 
+    padding: 20px;
+    border-radius: 10px; 
+    border: 2px solid #4CAF50; 
+}
+
+canvas {
+    display: block;
+    background-image: url("Ozadja/background6.jpg");
+    border: 2px solid #4CAF50; 
+    margin: 0 auto; 
+}
+
+p {
+    margin: 10px 0; 
+}
+mark {
+    background-color: transparent; 
+    color: #4CAF50; 
+    padding: 0;
+}
+
+#tocke {
+    color: #4CAF50;
+}
+
+#game-info {
+    display: flex;
+    justify-content: center; 
+    align-items: center;  
+    gap: 20px;  
+    color: #4CAF50;  
+    font-size: 1.2em;  
+}
+
+#toc, #cs {
+    margin: 0; 
+}
+
+#game-info {
+    margin-top:20px;
+    color: #4CAF50;  
+}
+
+.slikanaslov{
+    height: 50px;
+    width: auto;
+    
+}
+.swal-modal {
+    border:2px solid #4CAF50;
+    background-image: url('Ozadja/background6.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    color:white;
+}
+
+.zmaga-swal{
+    background-color: white;
+}
+
+.retro-swal button {
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    font-size: 16px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.mojaslika{
+    margin-bottom:4px;
+}
+.swal-button.swal-button--confirm.mojgumb2{
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    font-size: 16px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+#canon {
+    position: absolute;
+    left: 6%;
+    top: 50%;
+    transform:  rotate(70deg);
+    height: 500px; 
+}
+
+#spaceship {
+    position: absolute;
+    right: 8%;
+    top: 50%;
+    transform: translate(0, -50%) rotate(-38deg);
+    height: 500px; 
+    
+}
