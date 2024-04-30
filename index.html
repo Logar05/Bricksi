@@ -176,6 +176,7 @@ paddleImage.src = 'slike/pad.svg';
 var gameShouldEnd = false;
 var endGameCountdown = 5;
 function draw() {
+    if(isPaused) return;
     clear();
     circle(x, y, 10);
 
@@ -375,19 +376,25 @@ function circle(x, y, r, color='white') {
 
 
 
-        //nastavljanje leve in desne tipke
-        function onKeyDown(evt) {
-            if (evt.which == 39)
-                rightDown = true;
-            else if (evt.which == 37) leftDown = true;
-            else if (evt.which == 32) togglePause();
-        }
+       
+        
         $(document).keydown(onKeyDown);
-        function onKeyUp(evt) {
-            if (evt.which == 39)
-                rightDown = false;
-            else if (evt.which == 37) leftDown = false;
-        }
+        let spaceOpravljen = false; //takoj se mi je odpavziralo, zato sem uvedel flag, da se pavzira le enkrat
+
+function onKeyDown(evt) {
+    if (evt.which == 39) rightDown = true;
+    else if (evt.which == 37) leftDown = true;
+    else if (evt.which == 32 && !spaceOpravljen) {
+        evt.preventDefault();
+        togglePause();
+        spaceOpravljen = true;
+    }
+}
+function onKeyUp(evt) {
+    if (evt.which == 39) rightDown = false;
+     else if (evt.which == 37) leftDown = false;
+ else if (evt.which == 32) spaceOpravljen = false;
+}
 
         function init_mouse() {
             canvasMinX = $("canvas").offset().left;
@@ -434,7 +441,7 @@ function circle(x, y, r, color='white') {
 			window.location.reload();
 			}
 
-            function initGame(lives, hitsRequired, numCols, difficulty) {
+            function initGame(lives, hitsRequired, numCols, difficulty) {  //zacetek igre s tezavnotnimi parametri
                
     paddlex = WIDTH / 2;
     paddleh = 10;
@@ -454,22 +461,28 @@ function circle(x, y, r, color='white') {
     intervalId = setInterval(draw, 10);
     backgroundMusic.play();
 }
-function togglePause() {
+
+
+function togglePause() { 
+    
     if (!isPaused) {
         
- storedDx = dx;
-
-    storedDy = dy;
-dx = 0;
-  dy = 0;
-    isPaused = true;
+  storedDx = dx;
+      storedDy = dy;
+      dx = 0;
+     dy = 0;
+isPaused = true;
+       backgroundMusic.pause();
     } else {
-        
+        backgroundMusic.play();        
         dx = storedDx;
-        dy = storedDy;
-        isPaused = false;
+
+    dy= storedDy;
+  isPaused = false;
+        
     }
 }
+
 
 
 function checkGameOver() {
