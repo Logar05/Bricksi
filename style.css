@@ -251,3 +251,46 @@ mark {
     height: 500px; 
     
 }
+
+
+#highScoreTable {
+    position: absolute;
+    left: 7%;
+    top: 22%;     
+    background-image: url("Ozadja/background6.jpg");
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+#highScoreTable button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    font-size: 16px;
+    font-family: 'Press Start 2P', cursive;
+    background-color: transparent;
+    border-radius: 10px;
+}
+
+
+
+
+#highScoreTable h3 {
+    text-align: center;
+}
+
+#highScoreTable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#highScoreTable th, #highScoreTable td {
+    text-align: left;
+    padding: 8px;
+}
+
+#highScoreTable th {
+    border-bottom: 1px solid #ffffff;
+}
