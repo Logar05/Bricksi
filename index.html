@@ -12,9 +12,36 @@
 
 </head>
 
-<body onload="init()">
+<body onload="init(), getHighScores();">
+    
+
     <img id="canon" src="slike/canon.svg">
     <div id="game-area">
+        <div id="highScoreTable">
+            <h3>Top Scores</h3>
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>Score</th>
+                </tr>
+                <tr>
+                    <td>1st</td>
+                    <td id="highScore1">0</td>
+                </tr>
+                <tr>
+                    <td>2nd</td>
+                    <td id="highScore2">0</td>
+                </tr>
+                <tr>
+                    <td>3rd</td>
+                    <td id="highScore3">0</td>
+                </tr>
+            </table>
+            <button id="clearScores">Clear High Scores</button>
+        </div>
+        
+        
+
     <div id="naslov">
         <img src="slike/prvi.svg" class="slikanaslov">
          SPACE INVADERS 
@@ -32,8 +59,8 @@
     <script>
         var x = 150;
         var y = 150;
-        var dx = 2;
-        var dy = 4;
+        var dx;
+        var dy;
         var ctx;
         var canvas;
         var WIDTH;
@@ -66,6 +93,25 @@
         var minuteI;
         var intTimer;
         var izpisTimer;
+        var isPaused=false;
+        
+
+var storedDx = 0;
+var storedDy = 0;
+
+
+
+
+
+
+
+
+
+        var ballSpeeds = {  //razlicne hitrosti za zogo glede na level
+    easy: { dx: 2.5, dy: 3.5 },
+    hard: { dx: 3.5, dy: 5.5 }
+};
+
         function playCollisionSound() {
     var sound = new Audio('sounds/shoot.wav');
     sound.play();
@@ -123,6 +169,7 @@ paddleImage.src = 'slike/pad.svg';
     sekunde = 0;
     izpisTimer = "00:00";
     $("#cas").html(izpisTimer);
+    
 }
 
 
@@ -132,6 +179,7 @@ function draw() {
     clear();
     circle(x, y, 10);
 
+    
     
     if (rightDown) {
         if ((paddlex + paddlew) < WIDTH) {
@@ -182,7 +230,8 @@ if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col].hitsLeft >
     }
     else{
         tocke += 1;  
-        $("#tocke").html(tocke);  
+        $("#tocke").html(tocke);
+        
     }
     console.log("Hits Left: ", bricks[row][col].hitsLeft);
     console.log("Image Index: ", bricks[row][col].imageIndex);
@@ -192,7 +241,7 @@ if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col].hitsLeft >
 
 
 
-
+   
     if (x + dx > WIDTH - r || x + dx < r) {
     dx = -dx;
     playCollisionSound();
@@ -215,7 +264,9 @@ if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col].hitsLeft >
             } else {
                 backgroundMusic.pause();
                 gameoversound.play();
+                saveScore(tocke);
                 clearInterval(intervalId);
+                
                 swal({
     title: "Game Over",
     text: `Final Score: ${tocke}`,
@@ -275,7 +326,9 @@ if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col].hitsLeft >
         gameShouldEnd = true;
         backgroundMusic.pause();
         victorysound.play();
+        saveScore(tocke);
     }
+
 
 }
 
@@ -327,8 +380,9 @@ function circle(x, y, r, color='white') {
             if (evt.which == 39)
                 rightDown = true;
             else if (evt.which == 37) leftDown = true;
+            else if (evt.which == 32) togglePause();
         }
-
+        $(document).keydown(onKeyDown);
         function onKeyUp(evt) {
             if (evt.which == 39)
                 rightDown = false;
@@ -380,21 +434,44 @@ function circle(x, y, r, color='white') {
 			window.location.reload();
 			}
 
-            function initGame(lives, hitsRequired, numCols) {
-
+            function initGame(lives, hitsRequired, numCols, difficulty) {
+               
     paddlex = WIDTH / 2;
-    paddleh = 10;  
-    paddlew = 75;  
+    paddleh = 10;
+    paddlew = 75;
     rightDown = false;
     leftDown = false;
-    initBricks(hitsRequired, numCols);  
+    initBricks(hitsRequired, numCols);
     tocke = 0;
     playerLives = lives;
     sekunde = 0;
     start = true;
+
+    
+    dx = ballSpeeds[difficulty].dx;  
+    dy = ballSpeeds[difficulty].dy;  
+
     intervalId = setInterval(draw, 10);
     backgroundMusic.play();
 }
+function togglePause() {
+    if (!isPaused) {
+        
+ storedDx = dx;
+
+    storedDy = dy;
+dx = 0;
+  dy = 0;
+    isPaused = true;
+    } else {
+        
+        dx = storedDx;
+        dy = storedDy;
+        isPaused = false;
+    }
+}
+
+
 function checkGameOver() {
     let allBricksGone = true;
     for (var i = 0; i < NROWS; i++) {
@@ -424,21 +501,21 @@ function showInstructions() {   //swal za navodila
         }
     });
 }
-function showDifficultySelection() { //swal za zacetek igre
+function showDifficultySelection() {   //swal za zacetek igre
     swal({
         title: "Select Difficulty Level",
         icon: "info",
         content: {
-            element: "div",
-            attributes: {
-            innerHTML: `
-                <button style="background: transparent; border: none; padding: 0; margin: 5px;">
-                 <img src='slike/prvi.svg' alt='Easy' style='width: 70px; height: 70px;' onclick='initGame(2, 1, 7); swal.close();'>
-                 </button>
-         <button style="background: transparent; border: none; padding: 0; margin: 5px;">
-                <img src='slike/koncni.svg' alt='Hard' style='width: 70px; height: 70px;' onclick='initGame(1, 3,8); swal.close();'>
-                 </button>
-              <img src="slike/info.svg" alt="Info" style="width: 70px; height: 70px; cursor: pointer;" class="mojaslika" onclick="showInstructions();">
+         element: "div",
+      attributes: {
+          innerHTML: `
+          <button style="background: transparent; border: none; padding: 0; margin: 5px;">
+             <img src='slike/prvi.svg' alt='Easy' style='width: 70px; height: 70px;' onclick='initGame(2, 1, 7, "easy"); swal.close();'>
+             </button>
+          <button style="background: transparent; border: none; padding: 0; margin: 5px;">
+                 <img src='slike/koncni.svg' alt='Hard' style='width: 70px; height: 70px;' onclick='initGame(1, 3, 8, "hard"); swal.close();'>
+         </button>
+                    <img src="slike/info.svg" alt="Info" style="width: 70px; height: 70px; cursor: pointer;" class="mojaslika" onclick="showInstructions();">
                 `
             },
         },
@@ -446,6 +523,46 @@ function showDifficultySelection() { //swal za zacetek igre
         className: 'retro-swal'
     });
 }
+
+/*function saveScore(score) {                                                             //highscore z localstorage
+    const highScore = localStorage.getItem('highScore') || 0;
+    if (score > highScore) {
+        localStorage.setItem('highScore', score);
+        updateHighScoreDisplay(score);
+    }
+}
+
+function updateHighScoreDisplay(score) {
+    document.getElementById('highScoreDisplay').textContent = `High Score: ${score}`;
+}
+
+function getHighScore() {
+    const highScore = localStorage.getItem('highScore') || 0;
+    updateHighScoreDisplay(highScore);
+}*/
+function saveScore(score) {                                                                 //highscores z localstorage, za tabelo
+    let highScores = JSON.parse(localStorage.getItem('highScores')) || [0, 0, 0];
+    highScores.push(score);
+    highScores.sort((a, b) => b - a);
+    highScores = highScores.slice(0, 3); // Keep only top three scores
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+    updateHighScoreTable(highScores);
+}
+document.getElementById('clearScores').addEventListener('click', function() {
+    localStorage.setItem('highScores', JSON.stringify([0, 0, 0]));  // Reset high scores in storage
+    updateHighScoreTable([0, 0, 0]);  // Update display to show all zeros
+});
+function updateHighScoreTable(highScores) {
+    document.getElementById('highScore1').textContent = highScores[0] || 0;
+    document.getElementById('highScore2').textContent = highScores[1] || 0;
+    document.getElementById('highScore3').textContent = highScores[2] || 0;
+}
+
+function getHighScores() {
+    const highScores = JSON.parse(localStorage.getItem('highScores')) || [0, 0, 0];
+    updateHighScoreTable(highScores);
+}
+
 
     </script>
 </body>
